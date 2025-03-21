@@ -1,3 +1,4 @@
+import 'package:event_management_app/View/Auth/login_and_signup_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -55,7 +56,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       SizedBox(height: 30,),
                       TextButton(
                           onPressed: (){
-
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginAndSignupScreen()));
                           },
                           child: Text('Get Started',style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w500),))
 

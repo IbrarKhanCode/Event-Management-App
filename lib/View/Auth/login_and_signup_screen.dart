@@ -12,6 +12,7 @@ class _LoginAndSignupScreenState extends State<LoginAndSignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
     );
   }
 }
