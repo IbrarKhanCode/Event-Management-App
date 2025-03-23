@@ -1,3 +1,5 @@
+import 'package:event_management_app/View/Widgets/login_widget.dart';
+import 'package:event_management_app/View/Widgets/signup_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginAndSignupScreen extends StatefulWidget {
@@ -21,7 +23,7 @@ class _LoginAndSignupScreenState extends State<LoginAndSignupScreen> with Single
 
   void _updateHeaderText(){
     setState(() {
-      _headerText = _tabController.index == 0 ? 'Login' : 'Sign In';
+      _headerText = _tabController.index == 0 ? 'Login' : 'Sign Up';
     });
   }
 
@@ -39,9 +41,34 @@ class _LoginAndSignupScreenState extends State<LoginAndSignupScreen> with Single
 
       body: Column(
         children: [
+          SizedBox(height: 80,),
+          Center(child: Text(_headerText,style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 25),)),
           SizedBox(height: 50,),
-          Text(_headerText,style: TextStyle(color: Colors.black,fontWeight: FontWeight.w700,fontSize: 20),),
-          SizedBox(height: 50,),
+          SizedBox(
+            height: 50,
+            width: 200,
+            child: TabBar(
+              controller: _tabController,
+                dividerColor: Colors.transparent,
+                indicatorColor: Colors.black,
+                indicatorSize: TabBarIndicatorSize.tab,
+                unselectedLabelStyle: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(color: Colors.black,fontSize: 17,fontWeight: FontWeight.w500),
+                tabs: [
+                  Tab(child: Text('Login'),),
+                  Tab(child: Text('Sign Up'),),
+                ]
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+                children: [
+                    LoginWidget(),
+                    SignupWidget(),
+                ]
+            ),
+          ),
 
         ],
       ),
