@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "208304211349",
+    "project_id": "event-management-app-e2100",
+    "storage_bucket": "event-management-app-e2100.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208304211349:android:9d4d2b25e7a769de96229c",
+        "android_client_info": {
+          "package_name": "com.ibrar.event_management_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDFci4NFQSk72al0HaOLtNv1tN5WwdqOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
