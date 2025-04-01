@@ -1,3 +1,4 @@
+import 'package:event_management_app/Controller/auth_controller.dart';
 import 'package:event_management_app/View/Widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,12 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
+
+  AuthController authController = AuthController();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -21,6 +28,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                  child: Column(
                children: [
                  TextFormField(
+                   controller: emailController,
                    decoration: InputDecoration(
                      hintText: 'ibrarkhan431414@gmail.com',
                      hintStyle: TextStyle(color: Colors.grey,fontSize: 14),
@@ -37,6 +45,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                  ),
                  SizedBox(height: 20,),
                  TextFormField(
+                   controller: passwordController,
                    decoration: InputDecoration(
                        hintText: 'password',
                        hintStyle: TextStyle(color: Colors.grey,fontSize: 14),
@@ -59,7 +68,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                  PrimaryButton(
                      title: 'Login',
                      onPressed: (){
-      
+
+                       authController.login(email: emailController.text.trim(),password: passwordController.text.trim());
+
                      }
                      ),
                  SizedBox(height: 50,),

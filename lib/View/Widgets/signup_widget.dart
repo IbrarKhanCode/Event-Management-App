@@ -1,3 +1,4 @@
+import 'package:event_management_app/Controller/auth_controller.dart';
 import 'package:event_management_app/View/Widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,13 @@ class SignupWidget extends StatefulWidget {
 }
 
 class _SignupWidgetState extends State<SignupWidget> {
+
+  AuthController authController = AuthController();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -21,6 +29,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
                           hintText: 'Email',
                           hintStyle: TextStyle(color: Colors.grey,fontSize: 14),
@@ -37,6 +46,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                     ),
                     SizedBox(height: 20,),
                     TextFormField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                           hintText: 'password',
                           hintStyle: TextStyle(color: Colors.grey,fontSize: 14),
@@ -53,6 +63,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                     ),
                     SizedBox(height: 20,),
                     TextFormField(
+                      controller: confirmController,
                       decoration: InputDecoration(
                           hintText: 'Re-enter password',
                           hintStyle: TextStyle(color: Colors.grey,fontSize: 14),
@@ -71,6 +82,8 @@ class _SignupWidgetState extends State<SignupWidget> {
                     PrimaryButton(
                         title: 'Sign Up',
                         onPressed: (){
+
+                          authController.signUp(email: emailController.text.trim(),password: passwordController.text.trim());
 
                         }
                     ),
