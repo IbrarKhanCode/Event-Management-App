@@ -103,14 +103,19 @@ class _SignupWidgetState extends State<SignupWidget> {
                           child: Center(child: Icon(Icons.facebook,size: 30,color: Colors.white,),),
                         ),
                         SizedBox(width: 20,),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.teal,
-                              borderRadius: BorderRadius.circular(30)
+                        GestureDetector(
+                          onTap: (){
+                            authController.signInWithGoogle();
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.teal,
+                                borderRadius: BorderRadius.circular(30)
+                            ),
+                            child: Center(child: Icon(Icons.g_mobiledata,size: 40,color: Colors.white,),),
                           ),
-                          child: Center(child: Icon(Icons.g_mobiledata,size: 40,color: Colors.white,),),
                         ),
                       ],
                     )

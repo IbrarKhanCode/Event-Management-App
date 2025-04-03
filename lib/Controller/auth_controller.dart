@@ -47,7 +47,7 @@ class AuthController extends GetxController {
   void forgetPassword(String email) {
     auth.sendPasswordResetEmail(email: email).then((value) {
       Get.back();
-      Get.snackbar('Email Sent', 'We have sent password reset email');
+      Get.snackbar('Email Sent', 'We have sent password to reset email');
     }).catchError((e) {
       Get.snackbar('Error', "$e");
     });
@@ -67,9 +67,7 @@ class AuthController extends GetxController {
 
     FirebaseAuth.instance.signInWithCredential(credential).then((value) {
 
-
-
-      // Get.to(() => BottomBarView());
+      Get.to(HomeScreen());
     }).catchError((e) {
 
       Get.snackbar('Error', "$e");
