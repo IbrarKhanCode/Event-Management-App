@@ -1,3 +1,4 @@
+import 'package:event_management_app/Controller/auth_controller.dart';
 import 'package:event_management_app/View/onboarding/onboarding_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ void main()async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Get.put(AuthController());
   runApp(MyApp());
 }
 

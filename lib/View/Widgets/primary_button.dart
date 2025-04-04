@@ -9,14 +9,17 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 55,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Colors.teal,
-        borderRadius: BorderRadius.circular(15)
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 55,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: Colors.teal,
+          borderRadius: BorderRadius.circular(15)
+        ),
+        child: Center(child: Text(title,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),)),
       ),
-      child: Center(child: Text(title,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),)),
     );
   }
 }
