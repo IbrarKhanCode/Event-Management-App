@@ -1,15 +1,15 @@
-
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
-class DataController extends GetxController{
 
+
+
+class DataController extends GetxController{
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -30,16 +30,16 @@ class DataController extends GetxController{
   sendMessageToFirebase({
     Map<String,dynamic>? data,
     String? lastMessage,
-    String? grouid
+    String? groupId
   })async{
 
     isMessageSending(true);
 
-    await FirebaseFirestore.instance.collection('chats').doc(grouid).collection('chatroom').add(data!);
-    await FirebaseFirestore.instance.collection('chats').doc(grouid).set({
+    await FirebaseFirestore.instance.collection('chats').doc(groupId).collection('chatroom').add(data!);
+    await FirebaseFirestore.instance.collection('chats').doc(groupId).set({
       'lastMessage': lastMessage,
-      'groupId': grouid,
-      'group': grouid!.split('-'),
+      'groupId': groupId,
+      'group': groupId!.split('-'),
     },SetOptions(merge: true));
 
     isMessageSending(false);
@@ -51,7 +51,7 @@ class DataController extends GetxController{
     FirebaseFirestore.instance.collection('notifications').doc(recUid).collection('myNotifications').add({
       'message': "Send you a message.",
       'image': myDocument!.get('image'),
-      'name': myDocument!.get('first')+ " "+ myDocument!.get('last'),
+      'name': myDocument!.get('first') +" " + myDocument!.get('last'),
       'time': DateTime.now()
     });
   }
