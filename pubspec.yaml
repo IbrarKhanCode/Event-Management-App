@@ -50,6 +50,8 @@ dependencies:
   flutter_svg: ^2.0.17
   dotted_border: ^2.1.0
   video_thumbnail: ^0.5.3
+  emoji_picker_flutter: ^4.3.0
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

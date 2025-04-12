@@ -1,9 +1,9 @@
 
 import 'package:flutter/cupertino.dart';
 
-class MessageDetail {
+class Messagedetail {
   String image, name, desc, click;
-  MessageDetail({
+  Messagedetail({
     required this.image,
     required this.name,
     required this.desc,
@@ -21,7 +21,7 @@ class AustinYogaWork {
   });
 }
 
-class TicketDetail {
+class Ticketdetail {
   Color? color;
   String name,
       img1,
@@ -38,7 +38,7 @@ class TicketDetail {
       date,
       range;
 
-  TicketDetail({
+  Ticketdetail({
     this.color,
     required this.range,
     required this.date,
@@ -57,14 +57,14 @@ class TicketDetail {
   });
 }
 
-class StoryCircle {
+class Storycircle {
   String image;
-  StoryCircle({required this.image});
+  Storycircle({required this.image});
 }
 
-class InvitePerson {
+class Inviteperson {
   String image, name;
-  InvitePerson({required this.image, required this.name});
+  Inviteperson({required this.image, required this.name});
 }
 
 class CommunityModel {
