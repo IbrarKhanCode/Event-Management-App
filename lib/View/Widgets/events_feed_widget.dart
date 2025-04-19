@@ -1,17 +1,14 @@
-
-
-import 'dart:math';
 import 'package:event_management_app/View/Profile/add_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:event_management_app/Model/ticket_model.dart';
 import 'package:event_management_app/utilis/app_color.dart';
 import 'package:event_management_app/View/event_page_view.dart';
+
 
 List<AustinYogaWork> austin = [
   AustinYogaWork(rangeText: '7-8', title: 'CONCERN'),
@@ -27,10 +24,7 @@ List<String> imageList = [
 
 Widget EventsFeed() {
 
-
   DataController dataController = Get.find<DataController>();
-
-
 
   return Obx(()=> dataController.isEventsLoading.value? Center(child: CircularProgressIndicator(),) : ListView.builder(
     shrinkWrap: true,
@@ -58,7 +52,6 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
   }catch(e){
     dateInformation = [];
   }
-
 
   int comments = 0;
 
@@ -91,7 +84,7 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
       borderRadius: BorderRadius.circular(17),
       boxShadow: [
         BoxShadow(
-          color: Color(393939).withOpacity(0.15),
+          color: Color(0xff393939),
           spreadRadius: 0.1,
           blurRadius: 2,
           offset: Offset(0, 0), // changes position of shadow
@@ -116,7 +109,6 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
 
             width: double.infinity,
             height: Get.width*0.5,
-            //color: Colors.red,
           ),
         ),
         SizedBox(
@@ -130,7 +122,6 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
                 alignment: Alignment.center,
                 width: 41,
                 height: 24,
-                // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
                     border: Border.all(color: Color(0xffADD8E6))),
@@ -153,7 +144,6 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
               InkWell(
                 onTap: (){
 
-
                   if(eventSavedByUsers.contains(FirebaseAuth.instance.currentUser!.uid)){
                     FirebaseFirestore.instance.collection('events').doc(eventData!.id).set({
                       'saves': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
@@ -164,9 +154,8 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
                     },SetOptions(merge: true));
                   }
 
-
                 },
-                child: Container(
+                child: SizedBox(
                   width: 16,
                   height: 19,
                   child: Image.asset(
@@ -182,13 +171,10 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
         Row(
           children: [
 
-
-            Container(
-
+            SizedBox(
                 width: Get.width*0.6,
                 height: 50,
                 child: ListView.builder(itemBuilder: (ctx,index){
-
 
                   DocumentSnapshot user = dataController.allUsers.firstWhere((e)=> e.id == joinedUsers[index]);
 
@@ -200,8 +186,6 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
                     image = '';
                   }
 
-
-
                   return Container(
                     margin: EdgeInsets.only(left: 10),
                     child: CircleAvatar(
@@ -211,8 +195,6 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
                   );
                 },itemCount: joinedUsers.length,scrollDirection: Axis.horizontal,)
             ),
-
-
 
           ],
         ),
@@ -246,7 +228,7 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xffD24698).withOpacity(0.02),
+                      color: Color(0xffD24698),
                     )
                   ],
                 ),
@@ -309,12 +291,9 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
 
 EventItem(DocumentSnapshot event) {
 
-
   DataController dataController = Get.find<DataController>();
 
-
   DocumentSnapshot user = dataController.allUsers.firstWhere((e)=> event.get('uid') == e.id);
-
 
   String image = '';
 
@@ -332,8 +311,6 @@ EventItem(DocumentSnapshot event) {
   }catch(e){
     eventImage = '';
   }
-
-
   return Column(
     children: [
       Row(
@@ -377,11 +354,8 @@ EventItem(DocumentSnapshot event) {
 
 EventsIJoined() {
 
-
   DataController dataController = Get.find<DataController>();
-
   DocumentSnapshot myUser  = dataController.allUsers.firstWhere((e)=> e.id == FirebaseAuth.instance.currentUser!.uid);
-
 
   String userImage = '';
   String userName = '';
@@ -397,7 +371,6 @@ EventsIJoined() {
   }catch(e){
     userName = '';
   }
-
 
   return Column(
     children: [
@@ -432,7 +405,7 @@ EventsIJoined() {
       Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.shade50,
             spreadRadius: 1,
             blurRadius: 10,
             offset: Offset(0, 1), // changes position of shadow
@@ -461,7 +434,7 @@ EventsIJoined() {
               ],
             ),
             Divider(
-              color: Color(0xff918F8F).withOpacity(0.2),
+              color: Color(0xff918F8F),
             ),
             Obx(()=> dataController.isEventsLoading.value? Center(child: CircularProgressIndicator(),) :  ListView.builder(
               itemCount: dataController.joinedEvents.length,
@@ -469,24 +442,17 @@ EventsIJoined() {
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, i) {
 
-
                 String name = dataController.joinedEvents[i].get('event_name');
 
                 String date = dataController.joinedEvents[i].get('date');
 
                 date = date.split('-')[0] + '-' + date.split('-')[1];
-
-
-
                 List joinedUsers = [];
-
                 try{
                   joinedUsers = dataController.joinedEvents[i].get('joined');
                 }catch(e){
                   joinedUsers = [];
                 }
-
-
                 return Column(
                   children: [
                     Padding(
@@ -527,27 +493,17 @@ EventsIJoined() {
                         ],
                       ),
                     ),
-
-
-                    Container(
-
+                    SizedBox(
                         width: Get.width*0.6,
                         height: 50,
                         child: ListView.builder(itemBuilder: (ctx,index){
-
-
                           DocumentSnapshot user = dataController.allUsers.firstWhere((e)=> e.id == joinedUsers[index]);
-
                           String image = '';
-
                           try{
                             image = user.get('image');
                           }catch(e){
                             image = '';
                           }
-
-
-
                           return Container(
                             margin: EdgeInsets.only(left: 10),
                             child: CircleAvatar(
@@ -557,15 +513,11 @@ EventsIJoined() {
                           );
                         },itemCount: joinedUsers.length,scrollDirection: Axis.horizontal,)
                     ),
-
-
                   ],
                 );
               },
             ),
             ),
-
-
           ],
         ),
       ),

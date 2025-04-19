@@ -13,8 +13,9 @@ import 'package:event_management_app/View/Widgets/my_widgets.dart';
 import '../../controller/data_controller.dart';
 import 'package:event_management_app/utilis/app_color.dart';
 
+
 class Chat extends StatefulWidget {
-  Chat({this.image, this.name, this.groupId, this.fcmToken,this.uid});
+  Chat({super.key, this.image, this.name, this.groupId, this.fcmToken,this.uid});
 
   String? image, name, groupId, fcmToken,uid;
 
@@ -909,11 +910,8 @@ class _ChatState extends State<Chat> {
 
                     dataController!.isMessageSending(true);
 
-                    String imageUrl = await  dataController!.uploadImageToFirebase(File(image.path));
-
                     Map<String,dynamic> data = {
                       'type': 'iSentImage',
-                      'message': imageUrl,
                       'timeStamp': DateTime.now(),
                       'uid': myUid
                     };
@@ -940,11 +938,8 @@ class _ChatState extends State<Chat> {
                     Navigator.pop(context);
                     dataController!.isMessageSending(true);
 
-                    String imageUrl = await  dataController!.uploadImageToFirebase(File(image.path));
-
                     Map<String,dynamic> data = {
                       'type': 'iSentImage',
-                      'message': imageUrl,
                       'timeStamp': DateTime.now(),
                       'uid': myUid
                     };

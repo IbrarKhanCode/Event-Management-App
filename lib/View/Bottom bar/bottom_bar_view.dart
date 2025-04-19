@@ -10,7 +10,7 @@ import 'create_event.dart';
 import 'message_screen.dart';
 
 class BottomBarView extends StatefulWidget {
-  BottomBarView({Key? key}) : super(key: key);
+  const BottomBarView({super.key});
 
   @override
   State<BottomBarView> createState() => _BottomBarViewState();

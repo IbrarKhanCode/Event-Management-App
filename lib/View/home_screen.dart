@@ -1,14 +1,16 @@
 import 'package:event_management_app/Controller/data_controller.dart';
-import 'package:event_management_app/Services/notification_service.dart';
+import 'package:event_management_app/View/Widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:event_management_app/View/Widgets/events_feed_widget.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
+  State<HomeScreen> createState() => _HomeScreenState();
+ }
 
 class _HomeScreenState extends State<HomeScreen> {
 
@@ -17,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.03),
+      backgroundColor: Colors.grey.shade50,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -28,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                // CustomAppBar(),
+                CustomAppBar(),
 
                 Text(
                   "What Going on today",

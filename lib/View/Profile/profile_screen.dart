@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../model/ticket_model.dart';
 import 'package:event_management_app/utilis/app_color.dart';
 import 'package:event_management_app/View/Widgets/my_widgets.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -111,8 +111,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     var screenheight = MediaQuery.of(context).size.height;
     var screenwidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -157,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.15),
+                        color: Colors.grey.shade200,
                         spreadRadius: 2,
                         blurRadius: 3,
                         offset: Offset(0, 0), // changes position of shadow
@@ -232,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontWeight: FontWeight.w700,
                       ),
                     ):
-                    Container(
+                    SizedBox(
                       width: Get.width*0.6,
                       child: Row(
                         children: [
@@ -268,7 +270,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         color: Color(0xff918F8F),
                       ),
                     ):
-                    Container(
+                    SizedBox(
                       width: Get.width*0.6,
                       child: TextField(
                         controller: locationController,
@@ -282,7 +284,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    isNotEditable?Container(
+                    isNotEditable?SizedBox(
                       width: 270,
                       child: Text(
                         '${descriptionController.text}',
@@ -293,7 +295,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.w300,
                         ),
                       ),
-                    ): Container(
+                    ): SizedBox(
                       width: Get.width*0.6,
                       child: TextField(
                         controller: descriptionController,
@@ -339,7 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Container(
                             width: 1,
                             height: 35,
-                            color: Color(0xff918F8F).withOpacity(0.5),
+                            color: Color(0xff918F8F),
                           ),
                           Column(
                             children: [
@@ -362,7 +364,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ],
                           ),
-                          Container(
+                          SizedBox(
                             height: 40,
                             width: screenwidth * 0.25,
                             child: TextButton(
@@ -387,84 +389,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    // Container(
-                    //   margin: EdgeInsets.only(top: 10),
-                    //   width: Get.width * 0.6,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //     children: [
-                    //       Container(
-                    //         width: 34,
-                    //         height: 34,
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(36),
-                    //           color: Color(0xffE2E2E2),
-                    //         ),
-                    //         child: Padding(
-                    //           padding: const EdgeInsets.all(5),
-                    //           child: Icon(
-                    //             Icons.add,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //         width: 34,
-                    //         height: 34,
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(36),
-                    //           color: AppColors.blue,
-                    //         ),
-                    //         child: Image(
-                    //           image: AssetImage('assets/#1.png'),
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //         width: 34,
-                    //         height: 34,
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(36),
-                    //           color: AppColors.blue,
-                    //         ),
-                    //         child: Image(
-                    //           image: AssetImage('assets/#3.png'),
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //         width: 34,
-                    //         height: 34,
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(36),
-                    //           color: AppColors.blue,
-                    //         ),
-                    //         child: Image(
-                    //           image: AssetImage('assets/#2.png'),
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //         width: 34,
-                    //         height: 34,
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(36),
-                    //           color: AppColors.blue,
-                    //         ),
-                    //         child: Image(
-                    //           image: AssetImage('assets/#3.png'),
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //         width: 34,
-                    //         height: 34,
-                    //         decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(36),
-                    //           color: AppColors.blue,
-                    //         ),
-                    //         child: Image(
-                    //           image: AssetImage('assets/#1.png'),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
+
                     SizedBox(
                       height: 40,
                     ),
@@ -585,11 +510,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       scrollDirection: Axis.vertical,
                                       itemCount: ticket.length,
                                       itemBuilder: (context, index) {
-                                        return
-                                          // InkWell(onTap: (){
-                                          // Get.to(()=>Detailproduct(record: popular[index],));
-                                          // },
-                                          Container(
+                                        return Container(
                                             margin: EdgeInsets.only(top: 20),
                                             width: 388,
                                             height: 130,
@@ -599,8 +520,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               color: Colors.white,
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.15),
+                                                  color: Colors.grey.shade200,
                                                   spreadRadius: 2,
                                                   blurRadius: 3,
                                                   offset: Offset(0,
@@ -733,7 +653,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       ),
                                                       Row(
                                                         children: [
-                                                          Container(
+                                                          SizedBox(
                                                             height: 30,
                                                             child: Image.asset(
                                                               ticket[index].heart,

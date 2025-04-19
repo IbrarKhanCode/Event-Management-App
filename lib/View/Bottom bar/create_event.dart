@@ -1,8 +1,5 @@
-
-import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:event_management_app/Model/event_model.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
@@ -11,10 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-
 import 'package:event_management_app/View/Widgets/my_widgets.dart';
+
+
 class CreateEventView extends StatefulWidget {
-  CreateEventView({Key? key}) : super(key: key);
+  const CreateEventView({super.key});
 
   @override
   State<CreateEventView> createState() => _CreateEventViewState();
@@ -121,9 +119,6 @@ class _CreateEventViewState extends State<CreateEventView> {
 
   List<EventMediaModel> media = [];
 
-  // List<File> media = [];
-  // List thumbnail = [];
-  // List<bool> isImage = [];
 
   @override
   void initState() {
@@ -220,7 +215,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                           SizedBox(
                             height: Get.height * 0.05,
                           ),
-                          Container(
+                          SizedBox(
                             width: 76,
                             height: 59,
                             child: Image.asset('assets/uploadIcon.png'),
@@ -254,7 +249,7 @@ class _CreateEventViewState extends State<CreateEventView> {
 
                 media.length == 0
                     ? Container()
-                    : Container(
+                    : SizedBox(
                   width: Get.width,
                   height: Get.width * 0.3,
                   child: ListView.builder(
@@ -688,11 +683,11 @@ class _CreateEventViewState extends State<CreateEventView> {
                                           : 'Yearly';
                                       Get.back();
                                     },
+                                    color: Colors.blue,
                                     child: Text(
                                       "Select",
                                       style: TextStyle(color: Colors.white),
                                     ),
-                                    color: Colors.blue,
                                   )
                                 ],
                               ),
@@ -942,35 +937,7 @@ class _CreateEventViewState extends State<CreateEventView> {
 
                         DataController dataController = Get.find();
 
-                        if(media.isNotEmpty){
-                          for(int i=0;i<media.length;i++){
-                            if(media[i].isVideo!){
-                              /// if video then first upload video file and then upload thumbnail and
-                              /// store it in the map
 
-                              String thumbnailUrl= await dataController.uploadThumbnailToFirebase(media[i].thumbnail!);
-
-                              String videoUrl = await dataController.uploadImageToFirebase(media[i].video!);
-
-
-                              mediaUrls.add({
-                                'url': videoUrl,
-                                'thumbnail': thumbnailUrl,
-                                'isImage': false
-                              });
-
-                            }else{
-                              /// just upload image
-
-                              String imageUrl = await dataController.uploadImageToFirebase(media[i].image!);
-                              mediaUrls.add({
-                                'url': imageUrl,
-                                'isImage': true
-                              });
-                            }
-
-                          }
-                        }
 
                         List<String> tags =
                         tagsController.text.split(',');
@@ -1002,7 +969,6 @@ class _CreateEventViewState extends State<CreateEventView> {
 
                         await dataController.createEvent(eventData)
                             .then((value) {
-                          print("Event is done");
                           isCreatingEvent(false);
                           resetControllers();
                         });
