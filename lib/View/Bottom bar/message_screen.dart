@@ -1,23 +1,22 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:event_management_app/View/chatroom_screen.dart';
-import '../../model/message_model.dart';
-
+import 'package:event_management_app/Model/message_model.dart';
 class MessageScreen extends StatefulWidget {
+  const MessageScreen({super.key});
+
+
+
   @override
-  _MessageScreenState createState() => _MessageScreenState();
+  State<MessageScreen> createState() => _MessageScreenState();
 }
 
 class _MessageScreenState extends State<MessageScreen> {
 
-
   DataController dataController = Get.find<DataController>();
-
-
   String myUid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
@@ -25,6 +24,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
     var screenheight = MediaQuery.of(context).size.height;
     var screenwidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -49,10 +49,9 @@ class _MessageScreenState extends State<MessageScreen> {
                 padding: const EdgeInsets.only(left: 20),
                 child: Row(
                   children: [
-                    Container(
+                    SizedBox(
                       height: screenheight * 0.09,
                       width: screenwidth * 0.9,
-                      //decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
                         style: TextStyle(color: Colors.grey),
                         onChanged: (String input){
@@ -67,18 +66,13 @@ class _MessageScreenState extends State<MessageScreen> {
                                 name = '';
                               }
 
-
                               return name.toLowerCase().contains(input.toLowerCase());
                             }).toList();
-
-
 
                             dataController.filteredUsers.value.assignAll(users);
                             setState(() {
 
                             });
-
-
                           }
                         },
                         decoration: InputDecoration(
@@ -137,12 +131,6 @@ class _MessageScreenState extends State<MessageScreen> {
                           fcmToken = '';
                         }
 
-
-
-
-
-
-
                         return dataController.filteredUsers[index].id == FirebaseAuth.instance.currentUser!.uid? Container() : InkWell(
                           onTap: () {
 
@@ -153,7 +141,7 @@ class _MessageScreenState extends State<MessageScreen> {
                               chatRoomId = '${dataController.filteredUsers[index].id}-$myUid';
                             }
 
-                            Get.to(() => Chat(groupId: chatRoomId,name: name,image: image,fcmToken: fcmToken,uid: dataController.filteredUsers[index].id,));
+                            Get.to(() => ChatroomScreen(groupId: chatRoomId,name: name,image: image,fcmToken: fcmToken,uid: dataController.filteredUsers[index].id,));
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 20),

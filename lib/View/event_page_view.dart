@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
 import 'package:event_management_app/utilis/date_formatter.dart';
@@ -8,23 +7,16 @@ import 'package:get/get.dart';
 import 'package:event_management_app/utilis/app_color.dart';
 import 'package:event_management_app/View/check_out_screen.dart';
 import 'package:intl/intl.dart';
-
 import 'invite_guest_screen.dart';
-
 
 
 class EventPageView extends StatefulWidget {
 
-
-  DocumentSnapshot eventData,user;
-
-  EventPageView(this.eventData,this.user);
-
-
-
+  final DocumentSnapshot eventData,user;
+   const EventPageView(this.eventData,this.user, {super.key});
 
   @override
-  _EventPageViewState createState() => _EventPageViewState();
+  State<EventPageView> createState() => _EventPageViewState();
 }
 
 class _EventPageViewState extends State<EventPageView> {
@@ -100,11 +92,6 @@ class _EventPageViewState extends State<EventPageView> {
     }catch(e){
       eventSavedByUsers = [];
     }
-
-    // DateTime d = DateTime.tryParse(widget.eventData.get('date'))!;
-
-    // String formattedDate = formatDate(widget.eventData.get('date'));
-    //DateFormat("dd-MMM").format(d);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -262,13 +249,10 @@ class _EventPageViewState extends State<EventPageView> {
               Container(
                 child: Row(
                   children: [
-
-
-                    Container(
+                    SizedBox(
                       width: Get.width*0.6,
                       height: 50,
                       child: ListView.builder(itemBuilder: (ctx,index){
-
 
                         DocumentSnapshot user = dataController.allUsers.firstWhere((e)=> e.id == joinedUsers[index]);
 
@@ -279,9 +263,6 @@ class _EventPageViewState extends State<EventPageView> {
                         }catch(e){
                           image = '';
                         }
-
-
-
                         return Container(
                           margin: EdgeInsets.only(left: 10),
                           child: CircleAvatar(
@@ -291,8 +272,6 @@ class _EventPageViewState extends State<EventPageView> {
                         );
                       },itemCount: joinedUsers.length,scrollDirection: Axis.horizontal,),
                     ),
-
-
                     Spacer(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -422,7 +401,7 @@ class _EventPageViewState extends State<EventPageView> {
               ),
               Row(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 30,
                     height: 30,
                     child: Image.asset('assets/heart.png'),
@@ -473,13 +452,10 @@ class _EventPageViewState extends State<EventPageView> {
                           'saves': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
                         },SetOptions(merge: true));
 
-
-
                         eventSavedByUsers.remove(FirebaseAuth.instance.currentUser!.uid);
                         setState(() {
 
                         });
-
                       }else{
                         FirebaseFirestore.instance.collection('events').doc(widget.eventData.id).set({
                           'saves': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])

@@ -1,6 +1,4 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:event_management_app/Services/payment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,10 +7,9 @@ import 'package:event_management_app/utilis/app_color.dart';
 import 'package:event_management_app/View/Widgets/my_widgets.dart';
 
 class CheckOutView extends StatefulWidget {
-  DocumentSnapshot? eventDoc;
 
-  CheckOutView(this.eventDoc);
-
+  final DocumentSnapshot? eventDoc;
+  const CheckOutView(this.eventDoc, {super.key});
 
   @override
   State<CheckOutView> createState() => _CheckOutViewState();
@@ -119,7 +116,7 @@ class _CheckOutViewState extends State<CheckOutView> {
                     BoxShadow(
                       blurRadius: 2,
                       spreadRadius: 1,
-                      color: Color(0xff393939).withOpacity(0.15),
+                      color: Color(0xff393939),
                     ),
                   ],
                 ),
@@ -175,7 +172,7 @@ class _CheckOutViewState extends State<CheckOutView> {
                           ),
                           Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 11.67,
                                 height: 15,
                                 child: Image.asset(
@@ -226,7 +223,7 @@ class _CheckOutViewState extends State<CheckOutView> {
                 children: [
                   Row(
                     children: [
-                      Container(
+                      SizedBox(
                         width: 16,
                         height: 12,
                         child: Image.asset(
@@ -429,11 +426,6 @@ class _CheckOutViewState extends State<CheckOutView> {
                 width: double.infinity,
                 child: elevatedButton(
                   onpress: () {
-
-
-                    if(selectedRadio == 3){
-                      // makePayment(context,amount: '${int.parse(widget.eventDoc!.get('price')) + 2}',eventId: widget.eventDoc!.id);
-                    }
 
                   },
                   text: 'Book Now',

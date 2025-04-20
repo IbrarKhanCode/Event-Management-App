@@ -1,12 +1,9 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:event_management_app/Services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:event_management_app/View/Widgets/my_widgets.dart';
@@ -14,16 +11,16 @@ import '../../controller/data_controller.dart';
 import 'package:event_management_app/utilis/app_color.dart';
 
 
-class Chat extends StatefulWidget {
-  Chat({super.key, this.image, this.name, this.groupId, this.fcmToken,this.uid});
+class ChatroomScreen extends StatefulWidget {
 
-  String? image, name, groupId, fcmToken,uid;
+  const ChatroomScreen({super.key, this.image, this.name, this.groupId, this.fcmToken,this.uid});
+  final String? image, name, groupId, fcmToken,uid;
 
   @override
-  _ChatState createState() => _ChatState();
+  State<ChatroomScreen> createState() => _ChatroomScreenState();
 }
 
-class _ChatState extends State<Chat> {
+class _ChatroomScreenState extends State<ChatroomScreen> {
   bool isSendingMessage = false;
   bool isEmojiPickerOpen = false;
   String myUid = '';
@@ -200,7 +197,7 @@ class _ChatState extends State<Chat> {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Colors.grey.shade100,
                   spreadRadius: 9,
                   blurRadius: 9,
                   offset: Offset(3, 0), // changes position of shadow
@@ -217,7 +214,7 @@ class _ChatState extends State<Chat> {
                     right: 20,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.white2.withOpacity(0.6),
+                    color: Colors.grey.shade100,
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Row(
@@ -303,7 +300,7 @@ class _ChatState extends State<Chat> {
                               LocalNotificationService.sendNotification(title: 'New message',message: message,token: widget.fcmToken);
 
                             },
-                            child: Container(
+                            child: SizedBox(
                               width: 41,
                               height: 41,
                               child: Image.asset(
@@ -373,6 +370,7 @@ class _ChatState extends State<Chat> {
           return false;
         },
         key: UniqueKey(),
+        direction: DismissDirection.startToEnd,
         child: Column(
           children: [
             Row(
@@ -394,7 +392,6 @@ class _ChatState extends State<Chat> {
                 Container(
                   margin: EdgeInsets.only(left: 20),
                   width: 200,
-                  // height: screenheight * 0.06,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(18),
@@ -434,7 +431,6 @@ class _ChatState extends State<Chat> {
             )
           ],
         ),
-        direction: DismissDirection.startToEnd,
       ),
     );
   }
@@ -448,7 +444,6 @@ class _ChatState extends State<Chat> {
         Container(
           margin: EdgeInsets.only(right: 20),
           width: screenwidth * 0.38,
-          // height: screenheight * 0.06,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(18),
@@ -668,7 +663,6 @@ class _ChatState extends State<Chat> {
               Container(
                 margin: EdgeInsets.only(left: 0),
                 width: screenwidth * 0.4,
-                // height: screenheight * 0.06,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(18),
@@ -803,7 +797,6 @@ class _ChatState extends State<Chat> {
               Container(
                 margin: EdgeInsets.only(left: 0),
                 width: screenwidth * 0.4,
-                // height: screenheight * 0.06,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(18),

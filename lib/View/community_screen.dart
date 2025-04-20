@@ -1,19 +1,17 @@
-
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:event_management_app/View/Widgets/my_widgets.dart';
 
 
-
 class CommunityScreen extends StatefulWidget {
+  const CommunityScreen({super.key});
+
   @override
-  _CommunityScreenState createState() => _CommunityScreenState();
+  State<CommunityScreen> createState() => _CommunityScreenState();
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
@@ -38,7 +36,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
               Container(
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextFormField(
