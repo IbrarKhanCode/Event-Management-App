@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:event_management_app/utilis/app_color.dart';
-import 'package:event_management_app/View/notification_screen.dart';
+import 'package:event_management_app/View/user_notification_screen.dart';
 import 'my_widgets.dart';
 
 Widget CustomAppBar(){
@@ -10,7 +10,7 @@ Widget CustomAppBar(){
     margin: EdgeInsets.symmetric(vertical: 15),
     child: Row(
       children: [
-        Container(
+        SizedBox(
           width: 116,
           height: 17,
           child: myText(
@@ -20,7 +20,7 @@ Widget CustomAppBar(){
                   fontWeight: FontWeight.bold,fontSize: 16)),
         ),
         Spacer(),
-        Container(
+        SizedBox(
           width: 24,
           height: 22,
           child: InkWell(
@@ -35,7 +35,7 @@ Widget CustomAppBar(){
         ),
         InkWell(
           onTap: () {},
-          child: Container(
+          child: SizedBox(
             width: 22,
             height: 20,
             child: Image.asset(

@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:event_management_app/View/Widgets/my_widgets.dart';
 
 
@@ -152,21 +151,15 @@ class _CreateEventViewState extends State<CreateEventView> {
                       height: 33,
                       decoration: BoxDecoration(
                           border: Border(
-                              bottom: BorderSide(color: Colors.black.withOpacity(0.6),width: 0.6)
+                              bottom: BorderSide(color: Colors.grey.shade100,width: 0.6)
                           )
                       ),
                       child: DropdownButton(
                         isExpanded: true,
                         underline: Container(
-                          // decoration: BoxDecoration(
-                          //   border: Border.all(
-                          //     width: 0,
-                          //     color: Colors.white,
-                          //   ),
-                          // ),
+
                         ),
 
-                        // borderRadius: BorderRadius.circular(10),
                         icon: Image.asset('assets/arrowDown.png'),
                         elevation: 16,
                         style: TextStyle(
@@ -502,7 +495,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                                           decoration: BoxDecoration(
                                             color: selectedFrequency == -1
                                                 ? Colors.blue
-                                                : Colors.black.withOpacity(0.1),
+                                                : Colors.grey.shade50,
                                             borderRadius: BorderRadius.circular(10),
                                           ),
                                           child: Center(
@@ -534,7 +527,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                                           decoration: BoxDecoration(
                                             color: selectedFrequency == 0
                                                 ? Colors.blue
-                                                : Colors.black.withOpacity(0.1),
+                                                : Colors.grey.shade50,
                                             borderRadius: BorderRadius.circular(10),
                                           ),
                                           child: Center(
@@ -567,7 +560,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                                             borderRadius: BorderRadius.circular(10),
                                             color: selectedFrequency == 1
                                                 ? Colors.blue
-                                                : Colors.black.withOpacity(0.1),
+                                                : Colors.grey.shade50,
                                           ),
                                           child: Center(
                                             child: Text(
@@ -612,7 +605,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                                             borderRadius: BorderRadius.circular(10),
                                             color: selectedFrequency == 2
                                                 ? Colors.blue
-                                                : Colors.black.withOpacity(0.1),
+                                                : Colors.grey.shade50,
                                           ),
                                           child: Center(
                                             child: Text(
@@ -639,7 +632,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                                             borderRadius: BorderRadius.circular(10),
                                             color: selectedFrequency == 3
                                                 ? Colors.blue
-                                                : Colors.black.withOpacity(0.1),
+                                                : Colors.grey.shade50,
                                           ),
                                           child: Center(
                                             child: Text(
@@ -718,24 +711,10 @@ class _CreateEventViewState extends State<CreateEventView> {
                         'assets/repeat.png',
                         cacheHeight: 20,
                       ),
-                      // border: OutlineInputBorder(
-                      //     borderRadius: BorderRadius.circular(8.0)),
                     ),
                   ),
                 ),
 
-                // myTextField(
-                //     bool: false,
-                //     icon: 'assets/repeat.png',
-                //     text: 'Frequecy of event',
-                //     controller: frequencyEventController,
-                //     validator: (String input){
-                //       if(input.isEmpty){
-                //         Get.snackbar('Opps', "Frequency is required.",colorText: Colors.white,backgroundColor: Colors.blue);
-                //         return '';
-                //       }
-                //     }
-                // ),
                 SizedBox(
                   height: 20,
                 ),
@@ -836,16 +815,9 @@ class _CreateEventViewState extends State<CreateEventView> {
                       height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        // border: Border.all(width: 1, color: AppColors.genderTextColor),
+
                       ),
-                      // decoration: BoxDecoration(
-                      //
-                      //   // borderRadius: BorderRadius.circular(8),
-                      //    border: Border(
-                      //         bottom: BorderSide(color: Colors.black.withOpacity(0.8),width: 0.6)
-                      //     )
-                      //
-                      // ),
+
                       child: DropdownButton(
                         isExpanded: true,
                         underline: Container(
@@ -905,7 +877,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                     ? Center(
                   child: CircularProgressIndicator(),
                 )
-                    : Container(
+                    : SizedBox(
                   height: 42,
                   width: double.infinity,
 
@@ -934,10 +906,7 @@ class _CreateEventViewState extends State<CreateEventView> {
 
                         isCreatingEvent(true);
 
-
                         DataController dataController = Get.find();
-
-
 
                         List<String> tags =
                         tagsController.text.split(',');
@@ -1008,40 +977,6 @@ class _CreateEventViewState extends State<CreateEventView> {
     Navigator.pop(context);
   }
 
-  getVideoDialog(ImageSource source) async {
-    final ImagePicker _picker = ImagePicker();
-    // Pick an image
-    final XFile? video = await _picker.pickVideo(
-      source: source,
-    );
-
-    if (video != null) {
-
-
-      // media.add(File(image.path));
-
-      Uint8List? uint8list = await VideoThumbnail.thumbnailData(
-        video: video.path,
-        imageFormat: ImageFormat.JPEG,
-        quality: 75,
-      );
-
-      media.add(EventMediaModel(
-          thumbnail: uint8list!,
-          video: File(video.path),
-          isVideo: true
-      ));
-      // thumbnail.add(uint8list!);
-      //
-      // isImage.add(false);
-    }
-
-    // print(thumbnail.first.path);
-    setState(() {});
-
-    Navigator.pop(context);
-  }
-
   void mediaDialog(BuildContext context) {
     showDialog(
         builder: (BuildContext context) {
@@ -1082,7 +1017,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                       if (image) {
                         getImageDialog(ImageSource.gallery);
                       } else {
-                        getVideoDialog(ImageSource.gallery);
+                        (ImageSource.gallery);
                       }
                     },
                     icon: Icon(Icons.image)),
@@ -1091,7 +1026,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                       if (image) {
                         getImageDialog(ImageSource.camera);
                       } else {
-                        getVideoDialog(ImageSource.camera);
+                       (ImageSource.camera);
                       }
                     },
                     icon: Icon(Icons.camera_alt)),

@@ -32,7 +32,7 @@ Widget textField({text,TextEditingController? controller,Function? validator,Tex
 }
 
 Widget myTextField({text, String? icon, bool, TextEditingController? controller,Function? validator}) {
-  return Container(
+  return SizedBox(
     height: 45,
     child: TextFormField(
 

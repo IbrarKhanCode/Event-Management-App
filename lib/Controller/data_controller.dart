@@ -4,14 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-
 class DataController extends GetxController{
 
   FirebaseAuth auth = FirebaseAuth.instance;
-
   DocumentSnapshot? myDocument;
-
-
 
   var allUsers  = <DocumentSnapshot>[].obs;
   var filteredUsers = <DocumentSnapshot>[].obs;
@@ -20,7 +16,6 @@ class DataController extends GetxController{
   var joinedEvents = <DocumentSnapshot>[].obs;
 
   var isEventsLoading = false.obs;
-
 
   var isMessageSending = false.obs;
   sendMessageToFirebase({
@@ -84,7 +79,6 @@ class DataController extends GetxController{
     getEvents();
   }
 
-
   var isUsersLoading = false.obs;
 
   getUsers(){
@@ -96,14 +90,12 @@ class DataController extends GetxController{
     });
   }
 
-
   getEvents(){
     isEventsLoading(true);
 
     FirebaseFirestore.instance.collection('events').snapshots().listen((event) {
       allEvents.assignAll(event.docs);
       filteredEvents.assignAll(event.docs);
-
 
       joinedEvents.value =   allEvents.where((e){
         List joinedIds = e.get('joined');
@@ -112,17 +104,7 @@ class DataController extends GetxController{
 
       }).toList();
 
-
-
-
-
       isEventsLoading(false);
     });
-
-
   }
-
-
-
-
 }

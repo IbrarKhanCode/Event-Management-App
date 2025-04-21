@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:event_management_app/utilis/app_color.dart';
 import 'package:event_management_app/View/check_out_screen.dart';
 import 'package:intl/intl.dart';
-import 'invite_guest_screen.dart';
+import 'invite_guest.dart';
 
 
 class EventPageView extends StatefulWidget {
@@ -321,7 +321,7 @@ class _EventPageViewState extends State<EventPageView> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Get.to(() => Inviteguest());
+                        Get.to(() => InviteGuest());
                       },
                       child: Container(
                         height: 50,
@@ -355,7 +355,7 @@ class _EventPageViewState extends State<EventPageView> {
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.4),
+                                color: Colors.grey.shade100,
                                 spreadRadius: 0.1,
                                 blurRadius: 60,
                                 offset:

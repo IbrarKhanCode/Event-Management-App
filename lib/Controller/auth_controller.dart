@@ -64,24 +64,6 @@ class AuthController extends GetxController {
     });
   }
 
-
-  // Future<String> uploadImageToFirebaseStorage(File image) async {
-  //   String imageUrl = '';
-  //   String fileName = path.basename(image.path);
-  //
-  //   var reference =
-  //   FirebaseStorage.instance.ref().child('profileImages/$fileName');
-  //   UploadTask uploadTask = reference.putFile(image);
-  //   TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-  //   await taskSnapshot.ref.getDownloadURL().then((value) {
-  //     imageUrl = value;
-  //   }).catchError((e) {
-  //     Get.snackbar('Error', "$e");
-  //   });
-  //
-  //   return imageUrl;
-  // }
-
   uploadProfileData(String firstName, String lastName,
       String mobileNumber, String dob, String gender) {
 

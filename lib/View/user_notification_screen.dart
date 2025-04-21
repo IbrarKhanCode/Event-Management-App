@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +7,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:event_management_app/utilis/app_color.dart';
 import 'package:event_management_app/View/Widgets/my_widgets.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
+
+
 class UserNotificationScreen extends StatefulWidget {
+  const UserNotificationScreen({super.key});
+
   @override
-  _UserNotificationScreenState createState() => _UserNotificationScreenState();
-}
+  State<UserNotificationScreen> createState() => _UserNotificationScreenState();}
 
 class _UserNotificationScreenState extends State<UserNotificationScreen> {
   @override
@@ -31,7 +33,7 @@ class _UserNotificationScreenState extends State<UserNotificationScreen> {
               ),
 
               Container(
-                  color: Color(0xffEEEEEE).withOpacity(0.9),
+                  color: Colors.grey.shade200,
                   padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                   child: StreamBuilder<QuerySnapshot>(builder: (ctx,snap){
                     if(!snap.hasData){
@@ -137,7 +139,7 @@ class _UserNotificationScreenState extends State<UserNotificationScreen> {
             ),
           ),
           Divider(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.shade100,
           ),
         ],
       ),

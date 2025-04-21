@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,14 +7,15 @@ import 'package:event_management_app/View/Widgets/my_widgets.dart';
 import 'package:event_management_app/Model/ticket_model.dart';
 
 
-class Inviteguest extends StatefulWidget {
-  const Inviteguest({Key? key}) : super(key: key);
+class InviteGuest extends StatefulWidget {
+  const InviteGuest({super.key});
 
   @override
-  _InviteguestState createState() => _InviteguestState();
+  State<InviteGuest> createState() => _InviteGuestState();
 }
 
-class _InviteguestState extends State<Inviteguest> {
+class _InviteGuestState extends State<InviteGuest> {
+
   bool value = false;
   List<Storycircle> circle = [
     Storycircle(
@@ -38,8 +38,10 @@ class _InviteguestState extends State<Inviteguest> {
   ];
   @override
   Widget build(BuildContext context) {
+
     var screenheight = MediaQuery.of(context).size.height;
     var screenwidth = MediaQuery.of(context).size.width;
+
     final ButtonStyle style =
     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 16));
 
@@ -56,7 +58,7 @@ class _InviteguestState extends State<Inviteguest> {
                 decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(8)),
                 child: TextFormField(
-                  style: TextStyle(color: AppColors.black.withOpacity(0.6)),
+                  style: TextStyle(color: Colors.grey.shade100),
                   decoration: InputDecoration(
                     errorBorder: InputBorder.none,
                     errorStyle: TextStyle(fontSize: 0, height: 0),
@@ -125,7 +127,7 @@ class _InviteguestState extends State<Inviteguest> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     //alignment: Alignment.center,
 
                     width: 100,
@@ -154,7 +156,7 @@ class _InviteguestState extends State<Inviteguest> {
                   ),
                 ],
               ),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 height: screenheight * 0.6,
                 child: ListView.builder(
@@ -204,7 +206,7 @@ class _InviteguestState extends State<Inviteguest> {
                   },
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 50,
                 width: double.infinity,
                 child: ElevatedButton(

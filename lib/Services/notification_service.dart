@@ -5,8 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
-class LocalNotificationService {
 
+
+class LocalNotificationService {
 
   static String serverKey = '';
 
@@ -21,7 +22,7 @@ class LocalNotificationService {
 
   static void display(RemoteMessage message) async{
     try {
-      print("In Notification method");
+
       Random random = new Random();
       int id = random.nextInt(1000);
       final NotificationDetails notificationDetails = NotificationDetails(
@@ -33,7 +34,7 @@ class LocalNotificationService {
           )
 
       );
-      print("my id is ${id.toString()}");
+
       await _flutterLocalNotificationsPlugin.show(
         id,
         message.notification!.title,
@@ -46,9 +47,7 @@ class LocalNotificationService {
 
   static Future<void> sendNotification(
       {String? title, String? message, String? token}) async {
-    print("\n\n\n\n\n\n\n\n\n\n\n\n");
-    print("token is $token");
-    print("\n\n\n\n\n\n\n\n\n\n\n\n");
+
 
     final data = {
       "click_action": "FLUTTER_NOTIFICATION_CLICK",
@@ -76,7 +75,7 @@ class LocalNotificationService {
         ),
       );
 
-      print(r.body);
+
       if (r.statusCode == 200) {
         print('DOne');
       } else {
