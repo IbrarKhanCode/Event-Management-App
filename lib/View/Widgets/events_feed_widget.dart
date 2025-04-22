@@ -357,20 +357,18 @@ EventsIJoined() {
   DataController dataController = Get.find<DataController>();
   DocumentSnapshot myUser  = dataController.allUsers.firstWhere((e)=> e.id == FirebaseAuth.instance.currentUser!.uid);
 
-  String userImage = '';
+  String? userImage;
+  try {
+    userImage = myUser.get('image')?.toString();
+    if (userImage != null && userImage.isEmpty) userImage = null;
+  } catch(e) { userImage = null; }
+
   String userName = '';
-
-  try{
-    userImage = myUser.get('image');
-  }catch(e){
-    userImage = '';
-  }
-
-  try{
-    userName = '${myUser.get('first')} ${myUser.get('last')}';
-  }catch(e){
-    userName = '';
-  }
+  try {
+    final first = myUser.get('first')?.toString() ?? '';
+    final last = myUser.get('last')?.toString() ?? '';
+    userName = '$first $last'.trim();
+  } catch(e) { userName = ''; }
 
   return Column(
     children: [
@@ -418,8 +416,9 @@ EventsIJoined() {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(userImage),
+                  backgroundImage: userImage != null ? NetworkImage(userImage!) : null,
                   radius: 20,
+                  child: userImage == null ? Icon(Icons.person) : null,
                 ),
                 SizedBox(
                   width: 10,

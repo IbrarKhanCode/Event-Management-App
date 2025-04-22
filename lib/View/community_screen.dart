@@ -111,78 +111,57 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
 
 
-                  String userName = '',
-                      userImage = '',
-                      eventUserId = '',
-                      location = '',
-                      eventImage='',
-                      tagString=''
-                  ;
-                  eventUserId =
-                      dataController.filteredEvents.value[i].get('uid');
-                  DocumentSnapshot doc = dataController.allUsers
-                      .firstWhere(
-                          (element) => element.id == eventUserId);
-
-                  try {
-                    userName = doc.get('first');
-                  } catch (e) {
-                    userName = '';
-                  }
-
-
-                  print('Username is $userName');
-
-                  try {
-                    userImage = doc.get('image');
-                  } catch (e) {
-                    userImage = '';
-                  }
-
-                  try {
-                    location = dataController.filteredEvents.value[i]
-                        .get('location');
-                  } catch (e) {
-                    location = '';
-                  }
-
-
-
-                  try {
-                    List media =
-                    dataController.filteredEvents.value[i].get('media');
-
-                    eventImage = media.firstWhere(
-                            (element) => element['isImage'] == true)['url'];
-                  } catch (e) {
-                    eventImage = '';
-                  }
-
-                  List tags = [];
-
-                  try {
-                    tags = dataController.filteredEvents.value[i]
-                        .get('tags');
-                  } catch (e) {
-                    tags = [];
-                  }
-
-                  if(tags.length ==0){
-                    tagString = dataController.filteredEvents.value[i]
-                        .get('description');
-                  }else{
-                    tags.forEach((element) {
-                      tagString += "#$element, ";
-                    });
-                  }
-
-
-
+                  // Initialize variables
+                  String userName = '';
+                  String userImage = '';
+                  String eventUserId = dataController.filteredEvents.value[i].get('uid')?.toString() ?? '';
+                  String location = '';
+                  String eventImage = '';
+                  String tagString = '';
                   String eventName = '';
-                  try{
-                    eventName = dataController.filteredEvents.value[i].get('event_name');
-                  }catch(e){
-                    eventName = '';
+
+// Get user document
+                  DocumentSnapshot? doc;
+                  try {
+                    doc = dataController.allUsers.firstWhere(
+                          (element) => element.id == eventUserId,
+                    );
+                  } catch (e) {
+                    doc = null;
+                  }
+
+// Handle user data
+                  if (doc != null) {
+                    userName = '${doc.get('first')?.toString() ?? ''} ${doc.get('last')?.toString() ?? ''}'.trim();
+                    userImage = doc.get('image')?.toString() ?? '';
+                  }
+
+// Handle event data
+                  try {
+                    final event = dataController.filteredEvents.value[i];
+                    location = event.get('location')?.toString() ?? '';
+                    eventName = event.get('event_name')?.toString() ?? '';
+
+                    // Handle media
+                    try {
+                      final media = event.get('media') as List? ?? [];
+                      final imageMedia = media.firstWhere(
+                            (element) => element is Map && element['isImage'] == true,
+                        orElse: () => {'url': ''},
+                      );
+                      eventImage = imageMedia['url']?.toString() ?? '';
+                    } catch (e) {
+                      eventImage = '';
+                    }
+
+                    // Handle tags
+                    final tags = event.get('tags') as List? ?? [];
+                    tagString = tags.isEmpty
+                        ? event.get('description')?.toString() ?? ''
+                        : tags.map((e) => '#$e').join(', ');
+
+                  } catch (e) {
+                    // Error handling
                   }
 
 
@@ -190,82 +169,107 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     (
                     onTap: (){
                     },
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          userProfile(
-                            path: userImage,
-                            title: userName,
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff333333),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        userProfile(
+                          path: userImage,
+                          title: userName,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff333333),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset('assets/location.png'),
+                            SizedBox(
+                              width: 10,
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Image.asset('assets/location.png'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: myText(
-                                  text: location,
+                            Expanded(
+                              child: myText(
+                                text: location,
 
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xff303030),
-                                  ),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xff303030),
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              eventImage,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: eventImage.isNotEmpty
+                              ? Image.network(
+                            eventImage,
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => Container(
                               height: 100,
                               width: 100,
-                              fit: BoxFit.cover,
+                              color: Colors.grey[300],
+                              child: Icon(Icons.broken_image),
                             ),
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Container(
+                                height: 100,
+                                width: 100,
+                                color: Colors.grey[200],
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                              : Container(
+                            height: 100,
+                            width: 100,
+                            color: Colors.grey[300],
+                            child: Icon(Icons.image),
                           ),
+                        ),
 
 
+                        SizedBox(
+                          height: 10,
+                        ),
+                        myText(
+                          text: eventName,
 
-                          SizedBox(
-                            height: 10,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
                           ),
-                          myText(
-                            text: eventName,
-
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          myText(
-                            text: tagString,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        myText(
+                          text: tagString,
 
 
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blue,
-                            ),
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.blue,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },

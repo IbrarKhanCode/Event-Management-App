@@ -71,37 +71,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     dataController = Get.find<DataController>();
 
-    firstNameController.text = dataController!.myDocument!.get('first');
-    lastNameController.text = dataController!.myDocument!.get('last');
+    // First check if document exists
+    if (dataController?.myDocument?.exists ?? false) {
+      final data = dataController!.myDocument!.data() as Map<String, dynamic>? ?? {};
 
-    try{
-      descriptionController.text = dataController!.myDocument!.get('desc');
-    }catch(e){
+      // Handle text fields with null safety
+      firstNameController.text = data['first']?.toString() ?? '';
+      lastNameController.text = data['last']?.toString() ?? '';
+
+      // Handle optional fields
+      descriptionController.text = data['desc']?.toString() ?? '';
+      locationController.text = data['location']?.toString() ?? '';
+
+      // Handle image
+      image = data['image']?.toString() ?? '';
+
+      // Handle lists (followers/following)
+      followers = (data['followers'] as List?)?.length ?? 0;
+      following = (data['following'] as List?)?.length ?? 0;
+    } else {
+      // Set all fields to default values if document doesn't exist
+      firstNameController.text = '';
+      lastNameController.text = '';
       descriptionController.text = '';
-    }
-
-    try{
-      image = dataController!.myDocument!.get('image');
-    }catch(e){
-      image = '';
-    }
-
-    try{
-      locationController.text = dataController!.myDocument!.get('location');
-    }catch(e){
       locationController.text = '';
-    }
-
-
-    try{
-      followers = dataController!.myDocument!.get('followers').length;
-    }catch(e){
+      image = '';
       followers = 0;
-    }
-
-    try{
-      following = dataController!.myDocument!.get('following').length;
-    }catch(e){
       following = 0;
     }
 
@@ -760,14 +755,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         });
                       }
 
-
                       setState(() {
                         isNotEditable = !isNotEditable;
                       });
-
-
-
-
 
                     },
                     child: isNotEditable? Image(

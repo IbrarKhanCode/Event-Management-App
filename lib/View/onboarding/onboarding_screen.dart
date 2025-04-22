@@ -24,7 +24,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               SizedBox(height: 50,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Image.asset('assets/images/onboard.png'),
+                child: Image.asset('assets/onboardIcon.png'),
               ),
               SizedBox(height: 80,),
               Container(

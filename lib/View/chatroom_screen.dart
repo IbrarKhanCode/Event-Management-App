@@ -297,8 +297,6 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
 
                               dataController!.createNotification(widget.uid!);
 
-                              LocalNotificationService.sendNotification(title: 'New message',message: message,token: widget.fcmToken);
-
                             },
                             child: SizedBox(
                               width: 41,

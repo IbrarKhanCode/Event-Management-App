@@ -110,24 +110,28 @@ class _MessageScreenState extends State<MessageScreen> {
                       itemBuilder: (context, index) {
 
 
-                        String name = '', image = '';
-                        try{
-                          name = dataController.filteredUsers[index].get('first') + ' '+ dataController.filteredUsers[index].get('last');
-                        }catch(e){
+                        String name = '';
+                        String image = '';
+                        String fcmToken = '';
+
+                        try {
+                          final user = dataController.filteredUsers[index];
+                          final firstName = user.get('first')?.toString() ?? '';
+                          final lastName = user.get('last')?.toString() ?? '';
+                          name = '$firstName $lastName'.trim();
+                        } catch (e) {
                           name = '';
                         }
 
-                        try{
-                          image = dataController.filteredUsers[index].get('image');
-                        }catch(e){
+                        try {
+                          image = dataController.filteredUsers[index].get('image')?.toString() ?? '';
+                        } catch (e) {
                           image = '';
                         }
 
-
-                        String fcmToken = '';
-                        try{
-                          fcmToken = dataController.filteredUsers[index].get('fcmToken');
-                        }catch(e){
+                        try {
+                          fcmToken = dataController.filteredUsers[index].get('fcmToken')?.toString() ?? '';
+                        } catch (e) {
                           fcmToken = '';
                         }
 
@@ -155,8 +159,9 @@ class _MessageScreenState extends State<MessageScreen> {
                               //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: NetworkImage(image),
-                                  radius: 25,
+                                  backgroundImage: image.isNotEmpty ? NetworkImage(image) : null,
+                                  radius: 20,
+                                  child: image.isEmpty ? Icon(Icons.person) : null,
                                 ),
                                 SizedBox(
                                   width: screenwidth * 0.06,
