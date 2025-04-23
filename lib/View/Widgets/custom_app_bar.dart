@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:event_management_app/utilis/app_color.dart';
@@ -12,7 +11,7 @@ Widget CustomAppBar(){
       children: [
         SizedBox(
           width: 116,
-          height: 17,
+          height: 20,
           child: myText(
               text: 'EMS',
               style: TextStyle(
