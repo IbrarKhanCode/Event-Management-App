@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:event_management_app/Model/ticket_model.dart';
 import 'package:event_management_app/utilis/app_color.dart';
-import 'package:event_management_app/View/event_page_view.dart';
 
 
 List<AustinYogaWork> austin = [
@@ -23,15 +22,18 @@ List<String> imageList = [
 ];
 
 Widget EventsFeed() {
+  final DataController dataController = Get.find<DataController>();
 
-  DataController dataController = Get.find<DataController>();
-
-  return Obx(()=> dataController.isEventsLoading.value? Center(child: CircularProgressIndicator(),) : ListView.builder(
+  return Obx(() => dataController.isEventsLoading.value
+      ? Center(child: CircularProgressIndicator())
+      : ListView.builder(
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
-    itemBuilder: (ctx,i){
+    itemBuilder: (ctx, i) {
       return EventItem(dataController.allEvents[i]);
-    },itemCount: dataController.allEvents.length,));
+    },
+    itemCount: dataController.allEvents.length,
+  ));
 }
 
 Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventData}) {
@@ -292,7 +294,7 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
 Widget EventItem(DocumentSnapshot event) {
   final DataController dataController = Get.find<DataController>();
   DocumentSnapshot? user;
-  String? userImage = '';
+  String? userImage;
   String eventImage = '';
   String userName = 'User';
 
@@ -310,7 +312,10 @@ Widget EventItem(DocumentSnapshot event) {
 
   try {
     final media = event.get('media') as List? ?? [];
-    final mediaItem = media.firstWhere((e) => e['isImage'] == true, orElse: () => null);
+    final mediaItem = media.firstWhere(
+          (e) => e['isImage'] == true && (e['url']?.toString().isNotEmpty ?? false),
+      orElse: () => null,
+    );
     eventImage = mediaItem?['url']?.toString() ?? '';
   } catch (e) {
     eventImage = '';
@@ -325,14 +330,21 @@ Widget EventItem(DocumentSnapshot event) {
             child: CircleAvatar(
               radius: 25,
               backgroundColor: Colors.grey.shade200,
-              backgroundImage: userImage != null ? NetworkImage(userImage!) : null,
-              child: userImage == null ? Icon(Icons.person, color: Colors.grey) : null,
+              backgroundImage: userImage != null && userImage.isNotEmpty
+                  ? NetworkImage(userImage)
+                  : null,
+              child: userImage == null
+                  ? Icon(Icons.person, color: Colors.grey)
+                  : null,
             ),
           ),
           SizedBox(width: 12),
           Text(
             userName,
-            style: GoogleFonts.raleway(fontWeight: FontWeight.w700, fontSize: 18),
+            style: GoogleFonts.raleway(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+            ),
           ),
         ],
       ),
@@ -341,7 +353,6 @@ Widget EventItem(DocumentSnapshot event) {
         image: eventImage,
         text: event.get('event_name')?.toString() ?? 'Event',
         eventData: event,
-        func: () => Get.to(() => EventPageView(event, user ?? DocumentSnapshot())),
       ),
       SizedBox(height: 15),
     ],

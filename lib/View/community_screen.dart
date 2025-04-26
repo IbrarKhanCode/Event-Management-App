@@ -132,9 +132,11 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
 // Handle user data
                   if (doc != null) {
-                    userName = '${doc.get('first')?.toString() ?? ''} ${doc.get('last')?.toString() ?? ''}'.trim();
-                    userImage = doc.get('image')?.toString() ?? '';
+                    final data = doc.data() as Map<String, dynamic>;
+                    userName = '${data['first'] ?? ''} ${data['last'] ?? ''}'.trim();
+                    userImage = data.containsKey('image') ? (data['image']?.toString() ?? '') : '';
                   }
+
 
 // Handle event data
                   try {
