@@ -7,9 +7,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:event_management_app/View/Widgets/my_widgets.dart';
-import '../../controller/data_controller.dart';
 import 'package:event_management_app/utilis/app_color.dart';
-
+import 'package:event_management_app/Controller/data_controller.dart';
 
 class ChatroomScreen extends StatefulWidget {
 
@@ -315,32 +314,6 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
                   offstage: !isEmojiPickerOpen,
                   child: SizedBox(
                     height: 230,
-                    // child: EmojiPicker(
-                    //     onEmojiSelected: (Category category, Emoji emoji) {
-                    //       _onEmojiSelected(emoji);
-                    //     },
-                    //     onBackspacePressed: _onBackspacePressed,
-                    //     config: Config(
-                    //         columns: 7,
-                    //         // Issue: https://github.com/flutter/flutter/issues/28894
-                    //         emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
-                    //         verticalSpacing: 0,
-                    //         horizontalSpacing: 0,
-                    //         initCategory: Category.RECENT,
-                    //         bgColor: const Color(0xFFF2F2F2),
-                    //         indicatorColor: Colors.blue,
-                    //         iconColor: Colors.grey,
-                    //         iconColorSelected: Colors.blue,
-                    //         progressIndicatorColor: Colors.blue,
-                    //         backspaceColor: Colors.blue,
-                    //         showRecentsTab: true,
-                    //         recentsLimit: 28,
-                    //         noRecentsText: 'No Recents',
-                    //         noRecentsStyle: const TextStyle(
-                    //             fontSize: 20, color: Colors.black26),
-                    //         tabIndicatorAnimDuration: kTabScrollDuration,
-                    //         categoryIcons: const CategoryIcons(),
-                    //         buttonMode: ButtonMode.MATERIAL)),
                   ),
                 ),
               ],

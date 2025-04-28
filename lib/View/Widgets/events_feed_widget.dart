@@ -36,87 +36,72 @@ Widget EventsFeed() {
   ));
 }
 
-Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventData}) {
-
-  DataController dataController = Get.find<DataController>();
+Widget buildCard({String? image, String? text, Function? func, DocumentSnapshot? eventData}) {
+  final DataController dataController = Get.find<DataController>();
 
   List joinedUsers = [];
-
-  try{
-    joinedUsers = eventData!.get('joined');
-  }catch(e){
-    joinedUsers = [];
-  }
-
+  List userLikes = [];
+  List eventSavedByUsers = [];
   List dateInformation = [];
-  try{
-    dateInformation = eventData!.get('date').toString().split('-');
-  }catch(e){
-    dateInformation = [];
-  }
-
   int comments = 0;
 
-  List userLikes = [];
-
-  try{
-    userLikes = eventData!.get('likes');
-
-  }catch(e){
-    userLikes = [];
-  }
-
-  try{
-    comments = eventData!.get('comments').length;
-  }catch(e){
-    comments = 0;
-  }
-
-  List eventSavedByUsers = [];
-  try{
-    eventSavedByUsers = eventData!.get('saves');
-  }catch(e){
-    eventSavedByUsers = [];
+  try {
+    joinedUsers = eventData?.get('joined') ?? [];
+    dateInformation = eventData?.get('date')?.toString().split('-') ?? [];
+    userLikes = eventData?.get('likes') ?? [];
+    comments = eventData?.get('comments')?.length ?? 0;
+    eventSavedByUsers = eventData?.get('saves') ?? [];
+  } catch (e) {
+    // Fallbacks already handled
   }
 
   return Container(
-    padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
     decoration: BoxDecoration(
       color: AppColors.white,
       borderRadius: BorderRadius.circular(17),
       boxShadow: [
         BoxShadow(
-          color: Color(0xff393939),
+          color: const Color(0xff393939),
           spreadRadius: 0.1,
           blurRadius: 2,
-          offset: Offset(0, 0), // changes position of shadow
+          offset: Offset(0, 0),
         ),
       ],
     ),
     width: double.infinity,
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InkWell(
-          onTap: () {
-            func!();
-          },
-          child: Container(
-
-            // child: Image.network(image!,fit: BoxFit.fill,),
+        if (image != null && image.isNotEmpty) // ✅ Safe check before loading NetworkImage
+          InkWell(
+            onTap: () => func?.call(),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(image),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              width: double.infinity,
+              height: Get.width * 0.5,
+            ),
+          )
+        else
+          Container(
+            width: double.infinity,
+            height: Get.width * 0.5,
             decoration: BoxDecoration(
-              image: DecorationImage(image: NetworkImage(image!),fit: BoxFit.fill),
+              color: Colors.grey.shade200,
               borderRadius: BorderRadius.circular(10),
             ),
-
-            width: double.infinity,
-            height: Get.width*0.5,
+            child: const Center(child: Icon(Icons.image_not_supported, size: 50, color: Colors.grey)),
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
+
+        const SizedBox(height: 10),
+
+        Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
@@ -125,134 +110,120 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
                 width: 41,
                 height: 24,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Color(0xffADD8E6))),
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: const Color(0xffADD8E6)),
+                ),
                 child: Text(
-                  '${dateInformation[0]}-${dateInformation[1]}',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  (dateInformation.length >= 2) ? '${dateInformation[0]}-${dateInformation[1]}' : 'Date',
+                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
                 ),
               ),
-              SizedBox(
-                width: 18,
+              const SizedBox(width: 18),
+              Expanded(
+                child: Text(
+                  text ?? 'Event Name',
+                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              Text(
-                text,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-              ),
-              Spacer(),
               InkWell(
-                onTap: (){
-
-                  if(eventSavedByUsers.contains(FirebaseAuth.instance.currentUser!.uid)){
-                    FirebaseFirestore.instance.collection('events').doc(eventData!.id).set({
-                      'saves': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
-                    },SetOptions(merge: true));
-                  }else{
-                    FirebaseFirestore.instance.collection('events').doc(eventData!.id).set({
-                      'saves': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
-                    },SetOptions(merge: true));
+                onTap: () {
+                  final uid = FirebaseAuth.instance.currentUser?.uid;
+                  if (uid != null && eventData != null) {
+                    final update = eventSavedByUsers.contains(uid)
+                        ? FieldValue.arrayRemove([uid])
+                        : FieldValue.arrayUnion([uid]);
+                    FirebaseFirestore.instance.collection('events').doc(eventData.id).set(
+                      {'saves': update},
+                      SetOptions(merge: true),
+                    );
                   }
-
                 },
                 child: SizedBox(
-                  width: 16,
-                  height: 19,
+                  width: 20,
+                  height: 20,
                   child: Image.asset(
                     'assets/boomMark.png',
                     fit: BoxFit.contain,
-                    color: eventSavedByUsers.contains(FirebaseAuth.instance.currentUser!.uid)? Colors.red : Colors.black,
+                    color: eventSavedByUsers.contains(FirebaseAuth.instance.currentUser?.uid) ? Colors.red : Colors.black,
                   ),
                 ),
               ),
             ],
           ),
         ),
-        Row(
-          children: [
 
-            SizedBox(
-                width: Get.width*0.6,
-                height: 50,
-                child: ListView.builder(itemBuilder: (ctx,index){
-
-                  DocumentSnapshot user = dataController.allUsers.firstWhere((e)=> e.id == joinedUsers[index]);
-
-                  String image = '';
-
-                  try{
-                    image = user.get('image');
-                  }catch(e){
-                    image = '';
-                  }
+        // Joined Users Avatars
+        if (joinedUsers.isNotEmpty)
+          SizedBox(
+            height: 50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: joinedUsers.length,
+              itemBuilder: (ctx, index) {
+                try {
+                  final user = dataController.allUsers.firstWhere((e) => e.id == joinedUsers[index]);
+                  final userImage = user.get('image')?.toString() ?? '';
 
                   return Container(
-                    margin: EdgeInsets.only(left: 10),
+                    margin: const EdgeInsets.only(left: 10),
                     child: CircleAvatar(
                       minRadius: 13,
-                      backgroundImage: NetworkImage(image),
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: (userImage.isNotEmpty) ? NetworkImage(userImage) : null,
+                      child: (userImage.isEmpty) ? const Icon(Icons.person, size: 15) : null,
                     ),
                   );
-                },itemCount: joinedUsers.length,scrollDirection: Axis.horizontal,)
-            ),
-
-          ],
-        ),
-        SizedBox(
-          height: Get.height * 0.03,
-        ),
-        Row(
-          children: [
-            SizedBox(
-              width: 68,
-            ),
-            InkWell(
-              onTap: (){
-                if(userLikes.contains(FirebaseAuth.instance.currentUser!.uid)){
-
-
-                  FirebaseFirestore.instance.collection('events').doc(eventData!.id).set({
-                    'likes': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
-                  },SetOptions(merge: true));
-
-                }else{
-                  FirebaseFirestore.instance.collection('events').doc(eventData!.id).set({
-                    'likes': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid]),
-                  },SetOptions(merge: true));
+                } catch (e) {
+                  return const SizedBox();
                 }
               },
-              child:  Container(
+            ),
+          ),
+
+        const SizedBox(height: 15),
+
+        // Likes, Comments, Share
+        Row(
+          children: [
+            const SizedBox(width: 68),
+            InkWell(
+              onTap: () {
+                final uid = FirebaseAuth.instance.currentUser?.uid;
+                if (uid != null && eventData != null) {
+                  final update = userLikes.contains(uid)
+                      ? FieldValue.arrayRemove([uid])
+                      : FieldValue.arrayUnion([uid]);
+                  FirebaseFirestore.instance.collection('events').doc(eventData.id).set(
+                    {'likes': update},
+                    SetOptions(merge: true),
+                  );
+                }
+              },
+              child: Container(
                 height: 30,
                 width: 30,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(
-                      color: Color(0xffD24698),
-                    )
+                    BoxShadow(color: Color(0xffD24698)),
                   ],
                 ),
-                child: Icon(Icons.favorite,size: 14,color: userLikes.contains(FirebaseAuth.instance.currentUser!.uid)? Colors.red:Colors.black,),
+                child: Icon(
+                  Icons.favorite,
+                  size: 14,
+                  color: userLikes.contains(FirebaseAuth.instance.currentUser?.uid) ? Colors.red : Colors.black,
+                ),
               ),
             ),
-            SizedBox(
-              width: 3,
-            ),
+            const SizedBox(width: 3),
             Text(
               '${userLikes.length}',
-              style: TextStyle(
-                color: AppColors.black,
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black),
             ),
-            SizedBox(
-              width: 20,
-            ),
+            const SizedBox(width: 20),
             Container(
-              padding: EdgeInsets.all(0.5),
+              padding: const EdgeInsets.all(0.5),
               width: 17,
               height: 17,
               child: Image.asset(
@@ -260,22 +231,14 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
                 color: AppColors.black,
               ),
             ),
-            SizedBox(
-              width: 5,
-            ),
+            const SizedBox(width: 5),
             Text(
               '$comments',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.black,
-              ),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black),
             ),
-            SizedBox(
-              width: 15,
-            ),
+            const SizedBox(width: 15),
             Container(
-              padding: EdgeInsets.all(0.5),
+              padding: const EdgeInsets.all(0.5),
               width: 16,
               height: 16,
               child: Image.asset(
@@ -291,20 +254,30 @@ Widget buildCard({String? image, text, Function? func,DocumentSnapshot? eventDat
   );
 }
 
+
 Widget EventItem(DocumentSnapshot event) {
   final DataController dataController = Get.find<DataController>();
+
   DocumentSnapshot? user;
   String? userImage;
   String eventImage = '';
   String userName = 'User';
 
   try {
-    user = dataController.allUsers.firstWhere((e) => e.id == event.get('uid'));
+    user = dataController.allUsers.firstWhere(
+          (e) => e.id == event.get('uid'),
+      orElse: () => throw Exception('User not found'),
+    );
+
     userImage = user.get('image')?.toString();
-    if (userImage?.isEmpty ?? true) userImage = null;
+    if (userImage == null || userImage.isEmpty) {
+      userImage = null;
+    }
+
     final first = user.get('first')?.toString() ?? '';
     final last = user.get('last')?.toString() ?? '';
-    userName = '$first $last'.trim();
+    userName = ('$first $last').trim();
+    if (userName.isEmpty) userName = 'User';
   } catch (e) {
     userImage = null;
     userName = 'User';
@@ -322,6 +295,7 @@ Widget EventItem(DocumentSnapshot event) {
   }
 
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Row(
         children: [
@@ -330,9 +304,7 @@ Widget EventItem(DocumentSnapshot event) {
             child: CircleAvatar(
               radius: 25,
               backgroundColor: Colors.grey.shade200,
-              backgroundImage: userImage != null && userImage.isNotEmpty
-                  ? NetworkImage(userImage)
-                  : null,
+              backgroundImage: userImage != null ? NetworkImage(userImage) : null,
               child: userImage == null
                   ? Icon(Icons.person, color: Colors.grey)
                   : null,
@@ -348,7 +320,7 @@ Widget EventItem(DocumentSnapshot event) {
           ),
         ],
       ),
-      SizedBox(height: Get.height * 0.01),
+      SizedBox(height: Get.height * 0.015),
       buildCard(
         image: eventImage,
         text: event.get('event_name')?.toString() ?? 'Event',
@@ -359,6 +331,7 @@ Widget EventItem(DocumentSnapshot event) {
   );
 }
 
+
 Widget EventsIJoined() {
   final DataController dataController = Get.find<DataController>();
   final currentUserId = FirebaseAuth.instance.currentUser?.uid;
@@ -367,8 +340,8 @@ Widget EventsIJoined() {
   late DocumentSnapshot myUser;
   try {
     myUser = dataController.allUsers.firstWhere(
-            (e) => e.id == currentUserId,
-        orElse: () => throw Exception('User not found')
+          (e) => e.id == currentUserId,
+      orElse: () => throw Exception('User not found'),
     );
   } catch (e) {
     return _buildErrorWidget('Error loading user data');
@@ -378,7 +351,9 @@ Widget EventsIJoined() {
   String? userImage;
   try {
     userImage = myUser.get('image')?.toString();
-    userImage = userImage?.isEmpty ?? true ? null : userImage;
+    if (userImage == null || userImage.isEmpty) {
+      userImage = null;
+    }
   } catch (e) {
     userImage = null;
   }
@@ -389,7 +364,9 @@ Widget EventsIJoined() {
     final first = myUser.get('first')?.toString() ?? '';
     final last = myUser.get('last')?.toString() ?? '';
     userName = '$first $last'.trim();
-    if (userName.isEmpty) userName = 'User';
+    if (userName.isEmpty) {
+      userName = 'User';
+    }
   } catch (e) {
     userName = 'User';
   }
@@ -462,12 +439,12 @@ Widget _buildUserProfileRow(String userName, String? userImage) {
   return Row(
     children: [
       CircleAvatar(
-        backgroundImage: userImage != null
-            ? NetworkImage(userImage)
-            : null,
         radius: 20,
         backgroundColor: Colors.grey.shade200,
-        child: userImage == null
+        backgroundImage: userImage != null && userImage.isNotEmpty
+            ? NetworkImage(userImage)
+            : null,
+        child: (userImage == null || userImage.isEmpty)
             ? Icon(Icons.person, color: Colors.grey)
             : null,
       ),
@@ -568,29 +545,36 @@ Widget _buildJoinedUsersAvatars(DataController dataController, List joinedUsers)
         try {
           final userId = joinedUsers[index];
           final user = dataController.allUsers.firstWhere(
-                  (e) => e.id == userId,
-              orElse: () => throw Exception('User not found')
+                (e) => e.id == userId,
+            orElse: () => throw Exception('User not found'),
           );
 
           String? image;
           try {
             image = user.get('image')?.toString();
-            if (image?.isEmpty ?? true) image = null;
+            if (image == null || image.isEmpty) {
+              image = null;
+            }
           } catch (e) {
             image = null;
           }
 
           return Container(
-            margin: EdgeInsets.only(left: 10),
+            margin: EdgeInsets.only(left: 8),
             child: CircleAvatar(
-              minRadius: 13,
-              backgroundImage: image != null ? NetworkImage(image) : null,
+              radius: 18,
               backgroundColor: Colors.grey.shade200,
-              child: image == null ? Icon(Icons.person, size: 15) : null,
+              backgroundImage: image != null
+                  ? NetworkImage(image)
+                  : null,
+              child: (image == null)
+                  ? Icon(Icons.person, size: 18, color: Colors.grey)
+                  : null,
             ),
           );
         } catch (e) {
-          return SizedBox(); // Silently skip malformed users
+          // If user not found or error happens, skip showing anything
+          return SizedBox();
         }
       },
     ),

@@ -76,7 +76,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
 
                 },
                 child: Image.asset(
-                  'assets/images/gallary.png',
+                  'assets/gallary.png',
                   width: 25,
                   height: 25,
                 ),
@@ -112,6 +112,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: Get.width * 0.05),
         child: SingleChildScrollView(
@@ -191,6 +192,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
                       )
                   ),
                 ),
+                SizedBox(height: 20,),
                 TextFormField(
                   controller: lastNameController,
                   decoration: InputDecoration(
@@ -206,6 +208,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
                       )
                   ),
                 ),
+                SizedBox(height: 20,),
                 TextFormField(
                   controller: mobileNumberController,
                   decoration: InputDecoration(
@@ -221,6 +224,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
                       )
                   ),
                 ),
+                SizedBox(height: 20,),
                 SizedBox(
                   height: 48,
                   child: TextField(
@@ -234,7 +238,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(top: 10, left: 10),
                       suffixIcon: Image.asset(
-                        'assets/images/calender.png',
+                        'assets/calender.png',
                         cacheHeight: 20,
                       ),
                       hintText: 'Date Of Birht',
@@ -244,6 +248,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
                     ),
                   ),
                 ),
+                SizedBox(height: 20,),
                 Row(
                   children: [
                     Expanded(
@@ -281,6 +286,7 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
                     ),
                   ],
                 ),
+                SizedBox(height: 50,),
                 Container(
                   height: 50,
                   margin: EdgeInsets.only(top: Get.height * 0.02),
