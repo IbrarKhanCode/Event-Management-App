@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:event_management_app/View/Bottom%20bar/bottom_bar_view.dart';
 import 'package:event_management_app/View/Widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -296,22 +297,36 @@ class _AddProfileScreenState extends State<AddProfileScreen> {
                       onPressed: () async{
                         if (dob.text.isEmpty) {
                           Get.snackbar(
-                              'Warning', "Date of birth is required.",
-                              colorText: Colors.white,
-                              backgroundColor: Colors.blue);
-                        }
-
-                        if (!formKey.currentState!.validate()) {
-                        }
-
-                        if(profileImage == null){
+                            'Warning',
+                            "Date of birth is required.",
+                            colorText: Colors.white,
+                            backgroundColor: Colors.blue,
+                          );
+                        } else if (profileImage == null) {
                           Get.snackbar(
-                              'Warning', "Image is required.",
-                              colorText: Colors.white,
-                              backgroundColor: Colors.blue);
+                            'Warning',
+                            "Image is required.",
+                            colorText: Colors.white,
+                            backgroundColor: Colors.blue,
+                          );
+                        } else if (!formKey.currentState!.validate()) {
+                          Get.snackbar(
+                            'Error',
+                            'Fill the required fields',
+                            colorText: Colors.white,
+                            backgroundColor: Colors.red,
+                          );
+                        } else {
+                          authController!.uploadProfileData(
+                            firstNameController.text.trim(),
+                            lastNameController.text.trim(),
+                            mobileNumberController.text.trim(),
+                            dob.text.trim(),
+                            selectedRadio == 0 ? "Male" : "Female",
+                          );
+                          Get.to(() => BottomBarView());
                         }
 
-                        authController!.uploadProfileData(firstNameController.text.trim(), lastNameController.text.trim(), mobileNumberController.text.trim(), dob.text.trim(), selectedRadio ==0 ? "Male": "Female");
 
                       },)
                 ),

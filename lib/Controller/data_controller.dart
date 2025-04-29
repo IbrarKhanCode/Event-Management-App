@@ -38,14 +38,21 @@ class DataController extends GetxController{
   }
 
 
-  createNotification(String recUid){
-    FirebaseFirestore.instance.collection('notifications').doc(recUid).collection('myNotifications').add({
+  createNotification(String recUid) {
+    FirebaseFirestore.instance
+        .collection('notifications')
+        .doc(recUid)
+        .collection('myNotifications')
+        .add({
       'message': "Send you a message.",
-      'image': myDocument!.get('image'),
-      'name': myDocument!.get('first') +" " + myDocument!.get('last'),
-      'time': DateTime.now()
+      'image': (myDocument!.data() as Map<String, dynamic>)['image'],
+      'name': myDocument!.get('first') + " " + myDocument!.get('last'),
+      'time': DateTime.now(),
     });
   }
+
+
+
 
   getMyDocument(){
     FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid)

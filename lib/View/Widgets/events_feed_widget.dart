@@ -1,6 +1,7 @@
 import 'package:event_management_app/View/Profile/add_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
+import 'package:event_management_app/View/event_page_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -325,6 +326,9 @@ Widget EventItem(DocumentSnapshot event) {
         image: eventImage,
         text: event.get('event_name')?.toString() ?? 'Event',
         eventData: event,
+        func: (){
+          Get.to(() => EventPageView(event, user!));
+        }
       ),
       SizedBox(height: 15),
     ],
