@@ -132,7 +132,9 @@ class _CheckOutViewState extends State<CheckOutView> {
                         ),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(eventImage),
+                          image: (eventImage != null && eventImage.isNotEmpty)
+                              ? NetworkImage(eventImage)
+                              : AssetImage('assets/photo-1545912452-8aea7e25a3d3 2.png') as ImageProvider,
                         ),
                       ),
                     ),

@@ -93,6 +93,9 @@ class _EventPageViewState extends State<EventPageView> {
       eventSavedByUsers = [];
     }
 
+    final userData = widget.user.data() as Map<String, dynamic>;
+    final location = userData['location'] ?? 'No location';
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -116,11 +119,12 @@ class _EventPageViewState extends State<EventPageView> {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      image,
-                    ),
+                    backgroundImage: (image != null && image.isNotEmpty)
+                        ? NetworkImage(image)
+                        : AssetImage('assets/#2.png') as ImageProvider,
                     radius: 20,
                   ),
+
                   SizedBox(
                     width: 10,
                   ),
@@ -136,13 +140,13 @@ class _EventPageViewState extends State<EventPageView> {
                         height: 2,
                       ),
                       Text(
-                        "${widget.user.get('location')}",
+                        location,
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
                           fontWeight: FontWeight.w400,
                         ),
-                      ),
+                      )
                     ],
                   ),
                   Spacer(),
@@ -238,7 +242,9 @@ class _EventPageViewState extends State<EventPageView> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
-                    image: NetworkImage(eventImage),
+                    image: (eventImage != null && eventImage.isNotEmpty)
+                        ? NetworkImage(eventImage)
+                        : AssetImage('assets/4.png') as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -267,8 +273,11 @@ class _EventPageViewState extends State<EventPageView> {
                           margin: EdgeInsets.only(left: 10),
                           child: CircleAvatar(
                             minRadius: 13,
-                            backgroundImage: NetworkImage(image),
-                          ),
+                            backgroundImage: (image != null && image.isNotEmpty)
+                                ? NetworkImage(image)
+                                : AssetImage('assets/#1.png') as ImageProvider,
+                          )
+
                         );
                       },itemCount: joinedUsers.length,scrollDirection: Axis.horizontal,),
                     ),

@@ -1,6 +1,6 @@
-import 'package:event_management_app/View/Profile/add_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
+import 'package:event_management_app/View/Profile/profile_screen.dart';
 import 'package:event_management_app/View/event_page_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -74,13 +74,16 @@ Widget buildCard({String? image, String? text, Function? func, DocumentSnapshot?
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (image != null && image.isNotEmpty) // ✅ Safe check before loading NetworkImage
+        // Force the InkWell to show up
           InkWell(
-            onTap: () => func?.call(),
+            onTap: () {
+              print('Tapped!');
+              func?.call();
+            },
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(image),
+                  image: NetworkImage("https://picsum.photos/300"),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(10),
@@ -88,17 +91,9 @@ Widget buildCard({String? image, String? text, Function? func, DocumentSnapshot?
               width: double.infinity,
               height: Get.width * 0.5,
             ),
-          )
-        else
-          Container(
-            width: double.infinity,
-            height: Get.width * 0.5,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Center(child: Icon(Icons.image_not_supported, size: 50, color: Colors.grey)),
           ),
+
+
 
         const SizedBox(height: 10),
 
@@ -301,7 +296,7 @@ Widget EventItem(DocumentSnapshot event) {
       Row(
         children: [
           InkWell(
-            onTap: () => Get.to(() => AddProfileScreen()),
+            onTap: () => Get.to(() => ProfileScreen()),
             child: CircleAvatar(
               radius: 25,
               backgroundColor: Colors.grey.shade200,
@@ -326,9 +321,11 @@ Widget EventItem(DocumentSnapshot event) {
         image: eventImage,
         text: event.get('event_name')?.toString() ?? 'Event',
         eventData: event,
-        func: (){
-          Get.to(() => EventPageView(event, user!));
-        }
+          func: () {
+            if (event != null && user != null) {
+              Get.to(() => EventPageView(event!, user!));
+            }
+          }
       ),
       SizedBox(height: 15),
     ],
