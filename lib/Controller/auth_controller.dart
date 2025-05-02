@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/View/Bottom%20bar/bottom_bar_view.dart';
 import 'package:event_management_app/View/Profile/add_profile_screen.dart';
-import 'package:event_management_app/View/Profile/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +16,7 @@ class AuthController extends GetxController {
 
     auth.signInWithEmailAndPassword(email: email!, password: password!)
         .then((value){
-          Get.to(AddProfileScreen());
+          Get.to(BottomBarView());
     }).onError((e,stackTrace){
        Get.snackbar('Error', e.toString(),backgroundColor: Colors.red,colorText: Colors.white,duration: Duration(seconds: 1));
     });
@@ -28,7 +27,7 @@ class AuthController extends GetxController {
     auth.createUserWithEmailAndPassword(email: email!, password: password!)
         .then((value) {
 
-          Get.to(ProfileScreen());
+          Get.to(AddProfileScreen());
 
     }).onError((e,stackTrace){
       Get.snackbar('Error', e.toString(),backgroundColor: Colors.red,colorText: Colors.white,duration: Duration(seconds: 1));

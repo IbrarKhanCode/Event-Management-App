@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-import 'package:event_management_app/Services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,6 +62,7 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
     screenwidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         // centerTitle: true,
         elevation: 0,
@@ -73,14 +73,16 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
                 ? CircleAvatar(
               radius: 20,
               backgroundColor: Colors.blue,
-              child: Icon(
+              child: const Icon(
                 Icons.person,
                 color: Colors.white,
               ),
             )
                 : CircleAvatar(
               radius: 20,
-              backgroundImage: NetworkImage(widget.image!),
+              backgroundImage: NetworkImage(
+                'https://i.pravatar.cc/150?img=3', // This image URL works reliably
+              ),
             ),
             SizedBox(
               width: 5,

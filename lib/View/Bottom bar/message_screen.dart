@@ -26,6 +26,7 @@ class _MessageScreenState extends State<MessageScreen> {
     var screenwidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -159,10 +160,13 @@ class _MessageScreenState extends State<MessageScreen> {
                               //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: image.isNotEmpty ? NetworkImage(image) : null,
-                                  radius: 20,
-                                  child: image.isEmpty ? Icon(Icons.person) : null,
+                                  radius: 40,
+                                  backgroundImage: NetworkImage(
+                                    'https://i.pravatar.cc/150?img=3', // This image is fast and reliable
+                                  ),
+                                  child: image.isEmpty ? const Icon(Icons.person, size: 30) : null,
                                 ),
+
                                 SizedBox(
                                   width: screenwidth * 0.06,
                                 ),

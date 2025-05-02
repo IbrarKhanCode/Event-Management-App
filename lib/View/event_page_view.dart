@@ -244,7 +244,7 @@ class _EventPageViewState extends State<EventPageView> {
                   image: DecorationImage(
                     image: (eventImage != null && eventImage.isNotEmpty)
                         ? NetworkImage(eventImage)
-                        : AssetImage('assets/4.png') as ImageProvider,
+                        : AssetImage('assets/BG1.png') as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),

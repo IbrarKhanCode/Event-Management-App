@@ -34,6 +34,7 @@ class _BottomBarViewState extends State<BottomBarView> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
           onTap: onItemTapped,
           selectedItemColor: Colors.black,
           currentIndex: currentIndex,

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:event_management_app/Controller/data_controller.dart';
+import 'package:event_management_app/View/event_page_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -171,6 +172,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   return InkWell
                     (
                     onTap: (){
+                      
+                      Get.to(() => EventPageView(dataController.filteredEvents.value[i], doc!));
+                      
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -211,9 +215,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: eventImage.isNotEmpty
+                          child: 'https://i.pravatar.cc/150?img=10'.isNotEmpty
                               ? Image.network(
-                            eventImage,
+                            'https://i.pravatar.cc/150?img=10',
                             height: 100,
                             width: 100,
                             fit: BoxFit.cover,
@@ -221,7 +225,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                               height: 100,
                               width: 100,
                               color: Colors.grey[300],
-                              child: Icon(Icons.broken_image),
+                              child: const Icon(Icons.broken_image, color: Colors.grey),
                             ),
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;
@@ -232,7 +236,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                 child: Center(
                                   child: CircularProgressIndicator(
                                     value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
                                         : null,
                                   ),
                                 ),
@@ -243,9 +248,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
                             height: 100,
                             width: 100,
                             color: Colors.grey[300],
-                            child: Icon(Icons.image),
+                            child: const Icon(Icons.image, color: Colors.grey),
                           ),
                         ),
+
 
 
                         SizedBox(
