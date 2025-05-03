@@ -101,8 +101,7 @@ Widget settingIconAndText(
 Widget elevatedButton({text, Function? onpress}) {
   return ElevatedButton(
     style: ButtonStyle(
-
-      // backgroundColor: MaterialStateProperty.all<Color>(AppColors.blue),
+      backgroundColor: WidgetStatePropertyAll(Colors.teal),
     ),
     onPressed: () {
       onpress!();
@@ -110,6 +109,7 @@ Widget elevatedButton({text, Function? onpress}) {
     child: Text(
       text,
       style: TextStyle(
+        color: Colors.white,
         fontSize: 18,
         fontWeight: FontWeight.w500,
       ),

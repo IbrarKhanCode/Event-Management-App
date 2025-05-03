@@ -426,9 +426,11 @@ class _CheckOutViewState extends State<CheckOutView> {
                 margin: EdgeInsets.only(bottom: 10),
                 height: 50,
                 width: double.infinity,
-                child: elevatedButton(
-                  onpress: () {
 
+                child: elevatedButton(
+
+                  onpress: () {
+                      Get.snackbar('Message', 'Book Successfully',backgroundColor: Colors.green,colorText: Colors.white);
                   },
                   text: 'Book Now',
                 ),

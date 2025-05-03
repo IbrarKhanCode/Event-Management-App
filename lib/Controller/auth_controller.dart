@@ -44,24 +44,35 @@ class AuthController extends GetxController {
   }
 
   signInWithGoogle() async {
+    await GoogleSignIn().signOut();
+    await FirebaseAuth.instance.signOut(); // clears Firebase session
 
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication? googleAuth =
-    await googleUser?.authentication;
+    if (googleUser == null) {
+      Get.snackbar('Cancelled', 'Sign-in aborted by user',
+          backgroundColor: Colors.orange, colorText: Colors.white);
+      return;
+    }
+
+    final GoogleSignInAuthentication googleAuth =
+    await googleUser.authentication;
 
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
     );
 
     FirebaseAuth.instance.signInWithCredential(credential).then((value) {
-
       Get.to(BottomBarView());
-    }).onError((e,stackTrace){
-      Get.snackbar('Error', e.toString(),backgroundColor: Colors.red,colorText: Colors.white,duration: Duration(seconds: 1));
+    }).onError((e, stackTrace) {
+      Get.snackbar('Error', e.toString(),
+          backgroundColor: Colors.red, colorText: Colors.white);
     });
   }
+
+
+
 
   uploadProfileData(String firstName, String lastName,
       String mobileNumber, String dob, String gender) {

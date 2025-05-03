@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:event_management_app/View/Auth/login_and_signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,15 +52,24 @@ class DataController extends GetxController{
     });
   }
 
-
-
-
-  getMyDocument(){
-    FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid)
-        .snapshots().listen((event) {
-      myDocument = event;
-    });
+  getMyDocument() {
+    var user = auth.currentUser;
+    if (user != null) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .snapshots()
+          .listen((event) {
+        myDocument = event;
+      });
+    } else {
+      Future.delayed(Duration.zero, () {
+        Get.to(() => LoginAndSignupScreen());
+      });
+    }
   }
+
+
 
   Future<bool> createEvent(Map<String,dynamic> eventData)async{
     bool isCompleted = false;
@@ -107,7 +117,9 @@ class DataController extends GetxController{
       joinedEvents.value =   allEvents.where((e){
         List joinedIds = e.get('joined');
 
-        return joinedIds.contains(FirebaseAuth.instance.currentUser!.uid);
+        final currentUser = FirebaseAuth.instance.currentUser;
+        if (currentUser == null) return false; // or handle accordingly
+        return joinedIds.contains(currentUser.uid);
 
       }).toList();
 
