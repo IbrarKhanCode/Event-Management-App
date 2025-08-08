@@ -1,16 +1,44 @@
-# event_management_app
+# 📅 Event Management App
 
-A new Flutter project.
+A modern and interactive **Event Management App** built with **Flutter** and **Dart**, enabling users to create events, invite participants, and communicate in real time.  
+The app integrates **Firebase Authentication** (Email/Password, Google Sign-In, and Forgot Password functionality) and uses **Firebase Firestore** for seamless data storage.  
+It follows **MVC architecture** and leverages **GetX** for efficient state management and routing.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- **User Authentication**
+    - Email/Password login & signup
+    - Google Sign-In integration
+    - Forgot Password functionality
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Event Management**
+    - Create, edit, and delete events
+    - Invite participants
+    - View participant lists
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Real-Time Communication**
+    - Live chat feature within events
+    - Instant message updates via Firestore
+
+- **Architecture & State Management**
+    - **MVC architecture** for clean and organized code
+    - **GetX** for state management and routing
+
+- **Other Highlights**
+    - Responsive UI for various screen sizes
+    - Smooth navigation and transitions
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Flutter
+- **Language:** Dart
+- **State Management & Routing:** GetX
+- **Backend & Auth:** Firebase Authentication
+- **Database:** Firebase Firestore
+- **Architecture:** MVC
+
+---
